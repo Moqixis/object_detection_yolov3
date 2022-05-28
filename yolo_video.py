@@ -57,6 +57,7 @@ if __name__ == '__main__':
     )
 
     parser.add_argument(
+        # 注意路径！！！./path2your_video.mp4
         "--output", nargs='?', type=str, default="",
         help = "[Optional] Video output path"
     )
