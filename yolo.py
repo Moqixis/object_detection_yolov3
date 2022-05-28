@@ -210,9 +210,10 @@ class YOLO(object):
         self.sess.close()
 
 # 检测视频,分帧调⽤detect_image()
-def detect_video(yolo, video_path, output_path=""):
+# def detect_video(yolo, video_path, output_path=""):
+def detect_video(yolo, video_path, output_path):
     import cv2
-    vid = cv2.VideoCapture(0)
+    vid = cv2.VideoCapture(video_path) # 0是摄像头
     if not vid.isOpened():
         raise IOError("Couldn't open webcam or video")
     video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
@@ -229,8 +230,11 @@ def detect_video(yolo, video_path, output_path=""):
     prev_time = timer()
     while True:
         return_value, frame = vid.read() # 读入一帧图片
+        if(return_value==False): # opencv读取视频，最后帧是为空，我们需要做一个判断，如果为空就跳出循环
+            print("******************************************************") 
+            break
         image = Image.fromarray(frame)
-        image = yolo.detect_image(image)
+        image = yolo.detect_image(image) #检测
         result = np.asarray(image)
         # 计算fps
         curr_time = timer()
@@ -244,7 +248,7 @@ def detect_video(yolo, video_path, output_path=""):
             curr_fps = 0
         # 画出fps
         cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=0.50, color=(255, 0, 0), thickness=2)
+                    fontScale=0.50, color=(255, 255, 255), thickness=2) # 255改成白色了
         cv2.namedWindow("result", cv2.WINDOW_NORMAL)
         cv2.imshow("result", result)
         if isOutput:
