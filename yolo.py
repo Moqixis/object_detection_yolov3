@@ -216,7 +216,7 @@ def detect_video(yolo, video_path, output_path):
     vid = cv2.VideoCapture(video_path) # 0是摄像头
     if not vid.isOpened():
         raise IOError("Couldn't open webcam or video")
-    video_FourCC = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+    video_FourCC = cv2.VideoWriter_fourcc('m', 'p', '4', 'v') # 我这里输出的视频会变蓝，哈人，，不行就用下面这句
     # video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
     video_fps       = vid.get(cv2.CAP_PROP_FPS)
     video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
